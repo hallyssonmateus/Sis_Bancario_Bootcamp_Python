@@ -50,7 +50,7 @@ while True:
              
 
     elif opcao == "3":
-        print("\n========= Extrato ============")
+        print("\n========= Extrato ===========")
         if extrato == "" or extrato == 0:
             print("Não foram realizadas movimentações!")
         else:    
