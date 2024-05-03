@@ -6,14 +6,13 @@ menu = f"""
 [Q] Sair
 
 """
-
-saldo = 0
+deposito = 0
+saldo = 0 
 saque = 0
 limite = 500
-extrato = 0
+extrato = ''
 numero_saques = 0
 LIMITE_SAQUES = 3
-tot_saques = 0
 
 while True:
     opcao = input(menu)
@@ -24,7 +23,7 @@ while True:
         val_saldo = float(input("Digite o valor do deposito: "))
         if val_saldo > 0:
             saldo += val_saldo
-            deposito += val_saldo
+            extrato += f"Deposito: R$ {val_saldo: .2f}\n"
         
         else: 
             print("Valor de saldo invalido!")
@@ -32,30 +31,32 @@ while True:
     elif opcao == "2":
         print("Saque")
         saque = float(input("Qual valor do saque: "))
-        if saldo > 0:            
-            if numero_saques <=3:
-                extrato += saque
-                numero_saques+=1
-                saldo -= saque
-                if saque <= limite:                
-                    tot_saques += saque
-                    if tot_saques <= limite*3:
-                        print("Voce ultrapasou o limite total diario de R$ 1500,00!")
-                else:
-                    print("O limite diario de saque é R$500,00")        
-            else:
-                print("Voce ultrapassou o limite diario de 3 tentativas!")   
-        else:
+        if saque > saldo:
             print("Não é possivel realizar saque por falta de saldo!")
 
+        elif saque > limite:
+            print("Operação falhou. Limite diario de saque é R$500,00")
+
+        elif numero_saques >= LIMITE_SAQUES:
+            print("Voce ultrapassou o limite diario de 3 tentativas!")
+
+        elif saque > 0:
+            saldo -= saque
+            numero_saques += 1
+            extrato += f"Saque: R$ {saque:.2f}\n"
+                
+        else:
+            print("Operação falhou. Valor informado é invalido!")       
+             
+
     elif opcao == "3":
-        print("Extrato")
+        print("\n========= Extrato ============")
         if extrato == "" or extrato == 0:
             print("Não foram realizadas movimentações!")
         else:    
-            print(f"Deposito - R$ {deposito}")
-            print(f"Extrato - R$ {extrato}")
-            print(f"Extrato - R$ {saldo}")
+            print(deposito)
+            print(extrato)
+            print(f"\nSaldo: R$ {saldo:.2f}")
 
     elif opcao == "Q":
         break
